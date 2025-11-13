@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Yala Cafe</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1>Yala Cafe</h1>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html" class="active">Menu</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#" class="btn-reservation" onclick="openReservationModal(); return false;">Reservations</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Header -->
+    <section class="page-header" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=600&fit=crop'); background-size: cover; background-position: center;">
+        <div class="page-header-content">
+            <h1>Our Menu</h1>
+            <p>Discover our delicious offerings</p>
+        </div>
+    </section>
+
+    <!-- Menu Filter -->
+    <section class="menu-filter">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="breakfast">Breakfast</button>
+                <button class="filter-btn" data-filter="lunch">Lunch</button>
+                <button class="filter-btn" data-filter="dinner">Dinner</button>
+                <button class="filter-btn" data-filter="beverages">Beverages</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Items -->
+    <section class="menu-section">
+        <div class="container">
+            <!-- Breakfast -->
+            <div class="menu-category" data-category="breakfast">
+                <h2 class="category-title">Breakfast</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Classic Pancakes</h3>
+                            <span class="menu-price">$12.99</span>
+                        </div>
+                        <p class="menu-description">Fluffy pancakes served with maple syrup, butter, and fresh berries</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Eggs Benedict</h3>
+                            <span class="menu-price">$15.99</span>
+                        </div>
+                        <p class="menu-description">Poached eggs on English muffins with hollandaise sauce and Canadian bacon</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Avocado Toast</h3>
+                            <span class="menu-price">$10.99</span>
+                        </div>
+                        <p class="menu-description">Sourdough toast topped with smashed avocado, cherry tomatoes, and feta cheese</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>French Toast</h3>
+                            <span class="menu-price">$13.99</span>
+                        </div>
+                        <p class="menu-description">Brioche bread dipped in cinnamon egg batter, served with fresh fruit</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Breakfast Burrito</h3>
+                            <span class="menu-price">$14.99</span>
+                        </div>
+                        <p class="menu-description">Scrambled eggs, black beans, cheese, and avocado wrapped in a flour tortilla</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Belgian Waffles</h3>
+                            <span class="menu-price">$13.99</span>
+                        </div>
+                        <p class="menu-description">Crispy waffles topped with whipped cream, strawberries, and chocolate sauce</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lunch -->
+            <div class="menu-category" data-category="lunch">
+                <h2 class="category-title">Lunch</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Caesar Salad</h3>
+                            <span class="menu-price">$14.99</span>
+                        </div>
+                        <p class="menu-description">Romaine lettuce, parmesan cheese, croutons, and house-made Caesar dressing</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Grilled Chicken Sandwich</h3>
+                            <span class="menu-price">$16.99</span>
+                        </div>
+                        <p class="menu-description">Marinated grilled chicken breast with lettuce, tomato, and aioli on brioche bun</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Margherita Pizza</h3>
+                            <span class="menu-price">$18.99</span>
+                        </div>
+                        <p class="menu-description">Fresh mozzarella, tomato sauce, and basil on our signature pizza dough</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Fish Tacos</h3>
+                            <span class="menu-price">$17.99</span>
+                        </div>
+                        <p class="menu-description">Crispy fish, cabbage slaw, pico de gallo, and chipotle aioli in corn tortillas</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Quinoa Bowl</h3>
+                            <span class="menu-price">$15.99</span>
+                        </div>
+                        <p class="menu-description">Quinoa with roasted vegetables, chickpeas, avocado, and tahini dressing</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Beef Burger</h3>
+                            <span class="menu-price">$19.99</span>
+                        </div>
+                        <p class="menu-description">Angus beef patty with cheddar cheese, bacon, lettuce, tomato, and special sauce</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dinner -->
+            <div class="menu-category" data-category="dinner">
+                <h2 class="category-title">Dinner</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Grilled Salmon</h3>
+                            <span class="menu-price">$24.99</span>
+                        </div>
+                        <p class="menu-description">Fresh Atlantic salmon with herbs and lemon, served with seasonal vegetables</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Ribeye Steak</h3>
+                            <span class="menu-price">$32.99</span>
+                        </div>
+                        <p class="menu-description">Premium cut of beef, perfectly grilled and served with roasted potatoes</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Pasta Carbonara</h3>
+                            <span class="menu-price">$18.99</span>
+                        </div>
+                        <p class="menu-description">Classic Italian pasta with creamy sauce, bacon, and parmesan cheese</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Chicken Parmesan</h3>
+                            <span class="menu-price">$22.99</span>
+                        </div>
+                        <p class="menu-description">Breaded chicken breast with marinara sauce and melted mozzarella, served with pasta</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Lamb Chops</h3>
+                            <span class="menu-price">$28.99</span>
+                        </div>
+                        <p class="menu-description">Herb-crusted lamb chops with mint sauce and roasted vegetables</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Seafood Risotto</h3>
+                            <span class="menu-price">$26.99</span>
+                        </div>
+                        <p class="menu-description">Creamy arborio rice with shrimp, scallops, and fresh herbs</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beverages -->
+            <div class="menu-category" data-category="beverages">
+                <h2 class="category-title">Beverages</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Espresso</h3>
+                            <span class="menu-price">$3.99</span>
+                        </div>
+                        <p class="menu-description">Rich and bold Italian espresso</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Cappuccino</h3>
+                            <span class="menu-price">$4.99</span>
+                        </div>
+                        <p class="menu-description">Espresso with steamed milk and foam</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Fresh Orange Juice</h3>
+                            <span class="menu-price">$5.99</span>
+                        </div>
+                        <p class="menu-description">Freshly squeezed orange juice</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Iced Tea</h3>
+                            <span class="menu-price">$3.99</span>
+                        </div>
+                        <p class="menu-description">House-brewed iced tea with lemon</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Fresh Lemonade</h3>
+                            <span class="menu-price">$4.99</span>
+                        </div>
+                        <p class="menu-description">Homemade lemonade with fresh lemons</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Wine Selection</h3>
+                            <span class="menu-price">$8-15</span>
+                        </div>
+                        <p class="menu-description">Selection of red and white wines</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Yala Cafe</h3>
+                    <p>Bringing authentic flavors and warm hospitality to your table</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>📍 123 Main Street, City</li>
+                        <li>📞 (555) 123-4567</li>
+                        <li>✉️ info@yalacafe.com</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hours</h4>
+                    <ul>
+                        <li>Mon - Thu: 11am - 10pm</li>
+                        <li>Fri - Sat: 11am - 11pm</li>
+                        <li>Sunday: 12pm - 9pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Yala Cafe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Reservation Modal -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeReservationModal()">&times;</span>
+            <h2>Make a Reservation</h2>
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Guests</label>
+                        <select id="guests" name="guests" required>
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5 Guests</option>
+                            <option value="6">6+ Guests</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="special-requests">Special Requests</label>
+                    <textarea id="special-requests" name="special-requests" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Reserve Table</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

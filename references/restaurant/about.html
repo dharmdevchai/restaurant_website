@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Yala Cafe</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1>Yala Cafe</h1>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#" class="btn-reservation" onclick="openReservationModal(); return false;">Reservations</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&h=600&fit=crop'); background-size: cover; background-position: center;">
+        <div class="page-header-content">
+            <h1>Our Story</h1>
+            <p>Discover the passion behind Yala Cafe</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <div class="about-section">
+                <div class="about-text">
+                    <h2>Welcome to Yala Cafe</h2>
+                    <p>Founded with a vision to bring authentic flavors and warm hospitality to our community, Yala Cafe has been serving exceptional cuisine since 2010. Our journey began with a simple belief: great food brings people together.</p>
+                    <p>We source the finest ingredients from local farmers and trusted suppliers, ensuring every dish meets our high standards of quality and freshness. Our chefs bring years of culinary expertise and passion to every plate.</p>
+                </div>
+                <div class="about-image">
+                    <div class="placeholder-image">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop" alt="Restaurant Interior">
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section reverse">
+                <div class="about-text">
+                    <h2>Our Mission</h2>
+                    <p>At Yala Cafe, we're committed to creating memorable dining experiences. Our mission is to serve delicious, thoughtfully prepared meals in a welcoming atmosphere where every guest feels like family.</p>
+                    <p>We believe in sustainability, supporting local communities, and creating a positive impact through our culinary practices. Every ingredient tells a story, and every meal is crafted with care.</p>
+                </div>
+                <div class="about-image">
+                    <div class="placeholder-image">
+                        <img src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=800&h=600&fit=crop" alt="Food Preparation">
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <div class="about-text">
+                    <h2>Our Values</h2>
+                    <ul class="values-list">
+                        <li><strong>Quality:</strong> We never compromise on the quality of our ingredients or preparation</li>
+                        <li><strong>Hospitality:</strong> Every guest receives warm, attentive service from our dedicated team</li>
+                        <li><strong>Innovation:</strong> We continuously explore new flavors while honoring traditional recipes</li>
+                        <li><strong>Community:</strong> We're proud to be part of our local community and support local businesses</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <div class="placeholder-image">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop" alt="Restaurant Ambiance">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <p class="section-subtitle">The passionate people behind Yala Cafe</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=300&h=300&fit=crop" alt="Chef Maria Rodriguez">
+                    </div>
+                    <h3>Chef Maria Rodriguez</h3>
+                    <p class="member-role">Head Chef</p>
+                    <p class="member-bio">With over 15 years of experience, Chef Maria brings creativity and passion to every dish.</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="James Wilson">
+                    </div>
+                    <h3>James Wilson</h3>
+                    <p class="member-role">Restaurant Manager</p>
+                    <p class="member-bio">James ensures every guest has an exceptional experience from the moment they walk in.</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop" alt="Sarah Kim">
+                    </div>
+                    <h3>Sarah Kim</h3>
+                    <p class="member-role">Pastry Chef</p>
+                    <p class="member-bio">Sarah creates beautiful and delicious desserts that perfectly complement our menu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Yala Cafe</h3>
+                    <p>Bringing authentic flavors and warm hospitality to your table</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li>📍 123 Main Street, City</li>
+                        <li>📞 (555) 123-4567</li>
+                        <li>✉️ info@yalacafe.com</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hours</h4>
+                    <ul>
+                        <li>Mon - Thu: 11am - 10pm</li>
+                        <li>Fri - Sat: 11am - 11pm</li>
+                        <li>Sunday: 12pm - 9pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Yala Cafe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Reservation Modal -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeReservationModal()">&times;</span>
+            <h2>Make a Reservation</h2>
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Guests</label>
+                        <select id="guests" name="guests" required>
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5 Guests</option>
+                            <option value="6">6+ Guests</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="special-requests">Special Requests</label>
+                    <textarea id="special-requests" name="special-requests" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Reserve Table</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
