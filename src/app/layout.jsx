@@ -17,11 +17,18 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Yala Cafe - Authentic flavors, unforgettable dining experience",
   description: "Yala Cafe is a good restaurant serving authentic flavors with warm hospitality",
+ icons: {
+    icon: "/icon.png",   // your custom icon
+    shortcut: "/icon.png"
+  },
+
+
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+     
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
