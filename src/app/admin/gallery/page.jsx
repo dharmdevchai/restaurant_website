@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Loader from '@/app/components/Loader';
+import apiConfig from '@/config/api';
+import { useGlobalLoader } from '@/app/components/GlobalLoaderContext';
 
 export default function AdminGallery() {
+  const { showLoader, hideLoader } = useGlobalLoader();
   const [images, setImages] = useState([]);
   const [newImage, setNewImage] = useState({ url: '', alt: '' });
   const [editingIndex, setEditingIndex] = useState(null);
@@ -15,7 +18,8 @@ export default function AdminGallery() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/gallery');
+        showLoader('Loading gallery images...');
+        const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.gallery.getAll));
         if (response.ok) {
           const data = await response.json();
           setImages(data);
@@ -27,6 +31,7 @@ export default function AdminGallery() {
         setError('Network error while loading images');
       } finally {
         setLoading(false);
+        hideLoader();
       }
     };
 
@@ -44,7 +49,8 @@ export default function AdminGallery() {
     e.preventDefault();
     if (newImage.url && newImage.alt) {
       try {
-        const response = await fetch('http://localhost:5000/api/gallery', {
+        showLoader('Adding image...');
+        const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.gallery.create), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -62,13 +68,16 @@ export default function AdminGallery() {
       } catch (error) {
         console.error('Error adding image:', error);
         setError('Network error while adding image');
+      } finally {
+        hideLoader();
       }
     }
   };
 
   const handleDeleteImage = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/gallery/${id}`, {
+      showLoader('Deleting image...');
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.gallery.delete(id)), {
         method: 'DELETE',
       });
       
@@ -81,12 +90,15 @@ export default function AdminGallery() {
     } catch (error) {
       console.error('Error deleting image:', error);
       setError('Network error while deleting image');
+    } finally {
+      hideLoader();
     }
   };
 
   const saveEdit = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/gallery/${id}`, {
+      showLoader('Updating image...');
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.gallery.update(id)), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -107,6 +119,8 @@ export default function AdminGallery() {
     } catch (error) {
       console.error('Error updating image:', error);
       setError('Network error while updating image');
+    } finally {
+      hideLoader();
     }
   };
 
@@ -128,15 +142,15 @@ export default function AdminGallery() {
   }, [images, loading]);
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: '1rem' }}>
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
+        flexDirection: 'column',
+        gap: '1rem',
         marginBottom: '2rem' 
       }}>
         <h1>Gallery Management</h1>
-        <Link href="/gallery" className="btn btn-secondary">
+        <Link href="/gallery" className="btn btn-secondary" style={{ width: 'fit-content' }}>
           View Gallery
         </Link>
       </div>
@@ -144,16 +158,15 @@ export default function AdminGallery() {
       {/* Add New Image Form */}
       <div style={{ 
         backgroundColor: '#f8f9fa', 
-        padding: '1.5rem', 
+        padding: '1rem', 
         borderRadius: '8px', 
         marginBottom: '2rem' 
       }}>
         <h2>Add New Image</h2>
         <form onSubmit={handleAddImage} style={{ 
-          display: 'grid', 
-          gridTemplateColumns: '1fr 1fr auto', 
-          gap: '1rem', 
-          alignItems: 'end' 
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem'
         }}>
           <div className="form-group">
             <label htmlFor="imageUrl">Image URL</label>
@@ -179,7 +192,7 @@ export default function AdminGallery() {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" style={{ width: 'fit-content' }}>
             Add Image
           </button>
         </form>
@@ -191,9 +204,18 @@ export default function AdminGallery() {
         <Loader message="Loading gallery images..." />
       ) : (
         <>
-          <div className="dishes-grid">
+          <div className="dishes-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '1rem'
+          }}>
             {images.map((image) => (
-              <div key={image.id} className="dish-card">
+              <div key={image.id} className="dish-card" style={{
+                backgroundColor: 'white',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+              }}>
                 {editingIndex === image.id ? (
                   <div style={{ padding: '1rem' }}>
                     <div className="form-group">
@@ -216,18 +238,16 @@ export default function AdminGallery() {
                         style={{ marginBottom: '1rem' }}
                       />
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
                       <button 
                         onClick={() => saveEdit(image.id)} 
                         className="btn btn-primary"
-                        style={{ flex: 1 }}
                       >
                         Save
                       </button>
                       <button 
                         onClick={cancelEdit} 
                         className="btn btn-outline"
-                        style={{ flex: 1 }}
                       >
                         Cancel
                       </button>
@@ -263,11 +283,10 @@ export default function AdminGallery() {
                       }}>
                         {image.url}
                       </p>
-                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
                         <button 
                           onClick={() => startEditing(image)} 
                           className="btn btn-outline"
-                          style={{ flex: 1 }}
                         >
                           Edit
                         </button>
@@ -275,7 +294,6 @@ export default function AdminGallery() {
                           onClick={() => handleDeleteImage(image.id)} 
                           className="btn"
                           style={{ 
-                            flex: 1, 
                             backgroundColor: '#e74c3c', 
                             color: 'white',
                             border: 'none'
@@ -294,7 +312,7 @@ export default function AdminGallery() {
           {images.length === 0 && (
             <div style={{ 
               textAlign: 'center', 
-              padding: '3rem', 
+              padding: '2rem', 
               backgroundColor: '#f8f9fa', 
               borderRadius: '8px' 
             }}>

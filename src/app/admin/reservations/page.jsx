@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Loader from '@/app/components/Loader';
+import apiConfig from '@/config/api';
+import { useGlobalLoader } from '@/app/components/GlobalLoaderContext';
 
 export default function AdminReservations() {
+  const { showLoader, hideLoader } = useGlobalLoader();
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -12,7 +15,8 @@ export default function AdminReservations() {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/reservations');
+        showLoader('Loading reservations...');
+        const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.reservations.getAll));
         if (response.ok) {
           const data = await response.json();
           setReservations(data);
@@ -24,6 +28,7 @@ export default function AdminReservations() {
         setError('Network error while loading reservations');
       } finally {
         setLoading(false);
+        hideLoader();
       }
     };
 
@@ -32,7 +37,8 @@ export default function AdminReservations() {
 
   const handleDeleteReservation = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/reservations/${id}`, {
+      showLoader('Deleting reservation...');
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.reservations.delete(id)), {
         method: 'DELETE',
       });
       
@@ -45,19 +51,21 @@ export default function AdminReservations() {
     } catch (error) {
       console.error('Error deleting reservation:', error);
       setError('Network error while deleting reservation');
+    } finally {
+      hideLoader();
     }
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: '1rem' }}>
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
+        flexDirection: 'column',
+        gap: '1rem',
         marginBottom: '2rem' 
       }}>
         <h1>Reservation Management</h1>
-        <Link href="/admin" className="btn btn-secondary">
+        <Link href="/admin" className="btn btn-secondary" style={{ width: 'fit-content' }}>
           Back to Dashboard
         </Link>
       </div>
@@ -67,7 +75,7 @@ export default function AdminReservations() {
       ) : error ? (
         <div style={{ 
           textAlign: 'center', 
-          padding: '3rem', 
+          padding: '2rem', 
           backgroundColor: '#f8d7da', 
           color: '#721c24', 
           borderRadius: '8px',
@@ -85,7 +93,7 @@ export default function AdminReservations() {
               borderRadius: '8px',
               marginBottom: '2rem'
             }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
                 <thead>
                   <tr style={{ backgroundColor: '#e9ecef' }}>
                     <th style={{ padding: '1rem', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Name</th>
@@ -131,7 +139,7 @@ export default function AdminReservations() {
           ) : (
             <div style={{ 
               textAlign: 'center', 
-              padding: '3rem', 
+              padding: '2rem', 
               backgroundColor: '#f8f9fa', 
               borderRadius: '8px' 
             }}>

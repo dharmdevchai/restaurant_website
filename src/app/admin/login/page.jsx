@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import apiConfig from '@/config/api';
+import { useGlobalLoader } from '@/app/components/GlobalLoaderContext';
 
 export default function AdminLogin() {
+  const { showLoader, hideLoader } = useGlobalLoader();
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -14,7 +17,8 @@ export default function AdminLogin() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      showLoader('Logging in...');
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.auth.login), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,56 +32,40 @@ export default function AdminLogin() {
         // Store login status in localStorage
         localStorage.setItem('isAdminLoggedIn', 'true');
         localStorage.setItem('adminUsername', data.username);
-        router.push('/admin');
+        // Use a small delay to ensure the loader is shown before navigation
+        setTimeout(() => {
+          hideLoader();
+          router.push('/admin');
+        }, 100);
       } else {
         setError(data.message || 'Invalid username or password');
+        hideLoader();
       }
     } catch (error) {
       setError('Network error. Please try again.');
       console.error('Login error:', error);
+      hideLoader();
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#f8f9fa'
-    }}>
-      <div style={{
-        width: '100%',
-        maxWidth: '400px',
-        padding: '2rem',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1 style={{ 
-            color: '#2c3e50', 
-            marginBottom: '0.5rem' 
-          }}>Admin Login</h1>
-          <p style={{ color: '#666' }}>Access the gallery management panel</p>
+    <div className="admin-login-container">
+      <div className="login-card">
+        <div className="login-header">
+          <div className="logo-icon">🔒</div>
+          <h1>Admin Login</h1>
+          <p>Access the gallery management panel</p>
         </div>
 
         {error && (
-          <div style={{
-            padding: '0.75rem',
-            backgroundColor: '#ffebee',
-            color: '#c62828',
-            borderRadius: '4px',
-            marginBottom: '1rem',
-            textAlign: 'center'
-          }}>
+          <div className="alert alert-error">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -87,6 +75,7 @@ export default function AdminLogin() {
               value={credentials.username}
               onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
               required
+              placeholder="Enter your username"
             />
           </div>
           
@@ -99,29 +88,37 @@ export default function AdminLogin() {
               value={credentials.password}
               onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
               required
+              placeholder="Enter your password"
             />
           </div>
           
           <button 
             type="submit" 
-            className="btn btn-primary" 
-            style={{ width: '100%', padding: '0.8rem' }}
+            className="btn btn-primary login-btn"
+            disabled={loading}
           >
-            Login
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Logging in...
+              </>
+            ) : (
+              'Login'
+            )}
           </button>
         </form>
 
-        <div style={{ 
-          marginTop: '1.5rem', 
-          padding: '1rem', 
-          backgroundColor: '#e3f2fd', 
-          borderRadius: '4px',
-          fontSize: '0.9rem'
-        }}>
-          <p style={{ margin: 0, fontWeight: '500', marginBottom: '0.5rem' }}>Demo Credentials:</p>
-          <p style={{ margin: 0 }}>Username: <strong>admin</strong></p>
-          <p style={{ margin: 0 }}>Password: <strong>admin123</strong></p>
-          <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.8rem', color: '#666' }}>
+        <div className="demo-credentials">
+          <h3>Demo Credentials</h3>
+          <div className="credential-item">
+            <span className="credential-label">Username:</span>
+            <span className="credential-value">admin</span>
+          </div>
+          <div className="credential-item">
+            <span className="credential-label">Password:</span>
+            <span className="credential-value">admin123</span>
+          </div>
+          <p className="credential-note">
             After logging in, you can change the password in the admin dashboard.
           </p>
         </div>

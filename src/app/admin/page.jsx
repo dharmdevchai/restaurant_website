@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import apiConfig from '@/config/api';
 
 export default function AdminDashboard() {
   const [showPasswordChange, setShowPasswordChange] = useState(false);
@@ -45,7 +46,7 @@ export default function AdminDashboard() {
     }
     
     try {
-      const response = await fetch('http://localhost:5000/api/auth/change-password', {
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.auth.changePassword), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,45 +84,32 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Admin Dashboard</h1>
-      <p>Welcome to the admin panel. Select an option below to manage content:</p>
+    <div className="admin-dashboard">
+      <div className="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to the admin panel. Select an option below to manage content:</p>
+      </div>
       
       {passwordSuccess && (
-        <div style={{
-          padding: '1rem',
-          backgroundColor: '#d4edda',
-          color: '#155724',
-          borderRadius: '4px',
-          marginBottom: '1rem'
-        }}>
+        <div className="alert alert-success">
           {passwordSuccess}
         </div>
       )}
       
       {showPasswordChange ? (
-        <div style={{ 
-          backgroundColor: '#f8f9fa', 
-          padding: '1.5rem', 
-          borderRadius: '8px', 
-          marginBottom: '2rem' 
-        }}>
-          <h2>Change Password</h2>
+        <div className="password-change-card">
+          <div className="card-header">
+            <h2>Change Password</h2>
+          </div>
           {passwordError && (
-            <div style={{
-              padding: '0.75rem',
-              backgroundColor: '#f8d7da',
-              color: '#721c24',
-              borderRadius: '4px',
-              marginBottom: '1rem'
-            }}>
+            <div className="alert alert-error">
               {passwordError}
             </div>
           )}
-          <form onSubmit={handlePasswordChange}>
+          <form onSubmit={handlePasswordChange} className="password-form">
             <div className="form-group">
               <label htmlFor="currentPassword">Current Password</label>
-              <div style={{ position: 'relative' }}>
+              <div className="password-input-wrapper">
                 <input
                   type={showCurrentPassword ? "text" : "password"}
                   id="currentPassword"
@@ -129,21 +117,12 @@ export default function AdminDashboard() {
                   value={passwordData.currentPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
                   required
-                  style={{ paddingRight: '40px' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1.2rem'
-                  }}
+                  className="password-toggle-btn"
+                  aria-label={showCurrentPassword ? "Hide password" : "Show password"}
                 >
                   {showCurrentPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
@@ -151,7 +130,7 @@ export default function AdminDashboard() {
             </div>
             <div className="form-group">
               <label htmlFor="newPassword">New Password</label>
-              <div style={{ position: 'relative' }}>
+              <div className="password-input-wrapper">
                 <input
                   type={showNewPassword ? "text" : "password"}
                   id="newPassword"
@@ -159,21 +138,12 @@ export default function AdminDashboard() {
                   value={passwordData.newPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
                   required
-                  style={{ paddingRight: '40px' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1.2rem'
-                  }}
+                  className="password-toggle-btn"
+                  aria-label={showNewPassword ? "Hide password" : "Show password"}
                 >
                   {showNewPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
@@ -181,7 +151,7 @@ export default function AdminDashboard() {
             </div>
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm New Password</label>
-              <div style={{ position: 'relative' }}>
+              <div className="password-input-wrapper">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
@@ -189,27 +159,18 @@ export default function AdminDashboard() {
                   value={passwordData.confirmPassword}
                   onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
                   required
-                  style={{ paddingRight: '40px' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '10px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1.2rem'
-                  }}
+                  className="password-toggle-btn"
+                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                 >
                   {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
                 </button>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <div className="form-actions">
               <button type="submit" className="btn btn-primary">Change Password</button>
               <button 
                 type="button" 
@@ -232,26 +193,15 @@ export default function AdminDashboard() {
       ) : (
         <button 
           onClick={() => setShowPasswordChange(true)}
-          className="btn btn-outline"
-          style={{ marginBottom: '2rem' }}
+          className="btn btn-outline change-password-btn"
         >
           Change Admin Password
         </button>
       )}
       
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-        gap: '2rem' 
-      }}>
-      
-    
-        <div style={{ 
-          padding: '2rem', 
-          backgroundColor: '#f8f9fa', 
-          borderRadius: '8px', 
-          textAlign: 'center' 
-        }}>
+      <div className="dashboard-cards">
+        <div className="dashboard-card">
+          <div className="card-icon">🖼️</div>
           <h2>Gallery Management</h2>
           <p>Upload, edit, and manage gallery images</p>
           <Link href="/admin/gallery" className="btn btn-primary">
@@ -259,12 +209,8 @@ export default function AdminDashboard() {
           </Link>
         </div>
         
-        <div style={{ 
-          padding: '2rem', 
-          backgroundColor: '#f8f9fa', 
-          borderRadius: '8px', 
-          textAlign: 'center' 
-        }}>
+        <div className="dashboard-card">
+          <div className="card-icon">📅</div>
           <h2>Reservation Management</h2>
           <p>View and manage customer reservations</p>
           <Link href="/admin/reservations" className="btn btn-primary">

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import apiConfig from '@/config/api';
 
 export default function GalleryPage() {
   useScrollAnimation();
@@ -12,7 +13,7 @@ export default function GalleryPage() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/gallery');
+        const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.gallery.getAll));
         if (response.ok) {
           const data = await response.json();
           setGalleryImages(data);

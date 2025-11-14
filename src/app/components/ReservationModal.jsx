@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import apiConfig from "@/config/api";
 
 export default function ReservationModal() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function ReservationModal() {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:5000/api/reservations', {
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.reservations.create), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import "./globals.css";
 import React from 'react';
 import Footer from "./components/Footer";
 import ConditionalNavbar from "./components/ConditionalNavbar";
+import { GlobalLoaderProvider } from "./components/GlobalLoaderContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Yala Cafe - Authentic flavors, unforgettable dining experience",
   description: "Yala Cafe is a good restaurant serving authentic flavors with warm hospitality",
- icons: {
+  icons: {
     icon: "/icon.png",   // your custom icon
     shortcut: "/icon.png"
   },
@@ -28,13 +29,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-     
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ConditionalNavbar />
-        {children}
-        <Footer />
+        <GlobalLoaderProvider>
+          <ConditionalNavbar />
+          {children}
+          <Footer />
+        </GlobalLoaderProvider>
       </body>
     </html>
   );

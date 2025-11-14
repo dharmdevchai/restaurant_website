@@ -2,11 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useGlobalLoader } from '@/app/components/GlobalLoaderContext';
 
 export default function AdminLayout({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { showLoader, hideLoader } = useGlobalLoader();
 
   useEffect(() => {
     // Don't check authentication for login page
@@ -19,14 +22,28 @@ export default function AdminLayout({ children }) {
     if (adminLoggedIn === 'true') {
       setIsLoggedIn(true);
     } else {
-      router.push('/admin/login');
+      showLoader('Redirecting to login...');
+      // Use a small delay to ensure the loader is shown before navigation
+      setTimeout(() => {
+        router.push('/admin/login');
+        hideLoader();
+      }, 100);
     }
-  }, [router, pathname]);
+  }, [router, pathname, showLoader, hideLoader]);
 
   const handleLogout = () => {
+    showLoader('Logging out...');
     localStorage.removeItem('isAdminLoggedIn');
     setIsLoggedIn(false);
-    router.push('/admin/login');
+    // Use a small delay to ensure the loader is shown before navigation
+    setTimeout(() => {
+      router.push('/admin/login');
+      hideLoader();
+    }, 100);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   if (!isLoggedIn) {
@@ -39,114 +56,57 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div>
+    <div className="admin-layout">
       {/* Admin Navigation */}
-      <nav style={{
-        backgroundColor: '#2c3e50',
-        padding: '1rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        color: 'white',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
-      }}>
-        <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-          Admin Dashboard
-        </div>
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+      <nav className="admin-nav">
+        <div className="admin-nav-container">
+          <div className="admin-nav-header">
+            Admin Dashboard
+          </div>
           <button 
-            onClick={handleLogout}
-            style={{
-              backgroundColor: '#dc3545',
-              color: 'white',
-              border: 'none',
-              padding: '0.75rem 1.5rem',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              fontWeight: '600',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              fontFamily: 'inherit',
-              fontSize: '0.95rem',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              marginRight: '1rem'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = '#c82333';
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 6px 8px rgba(0, 0, 0, 0.15)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = '#dc3545';
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            }}
+            className="admin-menu-toggle"
+            onClick={toggleMenu}
+            aria-label="Toggle navigation menu"
           >
-            Logout
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
-          <Link href="/admin" style={{ 
-            color: 'white', 
-            textDecoration: 'none',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '6px',
-            transition: 'all 0.3s',
-            fontWeight: '500',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)'
-          }}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-            e.target.style.transform = 'translateY(-2px)';
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-            e.target.style.transform = 'translateY(0)';
-          }}
-          >
-            Dashboard
-          </Link>
-          <Link href="/admin/gallery" style={{ 
-            color: 'white', 
-            textDecoration: 'none',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '6px',
-            transition: 'all 0.3s',
-            fontWeight: '500'
-          }}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-            e.target.style.transform = 'translateY(-2px)';
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = '';
-            e.target.style.transform = 'translateY(0)';
-          }}
-          >
-            Gallery
-          </Link>
-          <Link href="/admin/reservations" style={{ 
-            color: 'white', 
-            textDecoration: 'none',
-            padding: '0.75rem 1.5rem',
-            borderRadius: '6px',
-            transition: 'all 0.3s',
-            fontWeight: '500'
-          }}
-          onMouseOver={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-            e.target.style.transform = 'translateY(-2px)';
-          }}
-          onMouseOut={(e) => {
-            e.target.style.backgroundColor = '';
-            e.target.style.transform = 'translateY(0)';
-          }}
-          >
-            Reservations
-          </Link>
+          <div className={`admin-nav-menu ${isMenuOpen ? 'active' : ''}`}>
+            <button 
+              onClick={handleLogout}
+              className="btn btn-danger"
+            >
+              Logout
+            </button>
+            <div className="admin-nav-links">
+              <Link 
+                href="/admin" 
+                className={`admin-nav-link ${pathname === '/admin' ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+              <Link 
+                href="/admin/gallery" 
+                className={`admin-nav-link ${pathname === '/admin/gallery' ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Gallery
+              </Link>
+              <Link 
+                href="/admin/reservations" 
+                className={`admin-nav-link ${pathname === '/admin/reservations' ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Reservations
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
 
-      <main>
+      <main className="admin-main">
         {children}
       </main>
     </div>
